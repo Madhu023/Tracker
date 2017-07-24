@@ -12,5 +12,7 @@ namespace Tracker.BO
         bool ImportDataBase(IList<Expense> ExpenseData);
 
         IList<Expense> GetExpenseData();
+
+        void TestFunction();
     }
 }

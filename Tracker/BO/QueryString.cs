@@ -19,6 +19,9 @@ namespace Tracker.BO
 
         public string InsertDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Description, Amount, Date) Values ('{0}','{1}','{2}')";
 
-        public string GetExpenseDataQuery = @"SELECT * FROM ExpenseTable";
+        public string ExpenseCountQuery = @"SELECT SUM(Amount) As Total FROM ExpenseTable";
+
+        public string ExpenseDataQuery = @"SELECT * FROM ExpenseTable";
+
     }
 }

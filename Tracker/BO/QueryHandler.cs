@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 using Tracker.Model;
 
 namespace Tracker.BO
 {
     public class QueryHandler : IQueryHandler
     {
-        private static QueryHandler _queryHandler;
+        private static IQueryHandler _queryHandler;
 
         private SQLiteConnection _connection;
 
@@ -25,7 +26,7 @@ namespace Tracker.BO
             set { _queryObj = value; }
         }
 
-        public static QueryHandler GetDBConnector()
+        public static IQueryHandler GetDBConnector()
         {
             if (null == _queryHandler)
             {
@@ -83,7 +84,7 @@ namespace Tracker.BO
         public IList<Expense> GetExpenseData()
         {
             List<Expense> Data = new List<Expense>();
-            SQLiteCommand command = GetSqlCommand(QueryObj.GetExpenseDataQuery);
+            SQLiteCommand command = GetSqlCommand(QueryObj.ExpenseDataQuery);
 
             Connection.Open();
             using (SQLiteDataReader reader = command.ExecuteReader())
@@ -102,6 +103,21 @@ namespace Tracker.BO
             command.Dispose();
 
             return Data;
+        }
+
+        public void TestFunction()
+        {
+            SQLiteCommand command = GetSqlCommand(QueryObj.ExpenseCountQuery);
+
+            Connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                }
+            }
+            Connection.Close();
+            command.Dispose();
         }
     }
 }

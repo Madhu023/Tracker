@@ -92,6 +92,7 @@
     <Compile Include="Common\DateTimeConverter.cs" />
     <Compile Include="Model\Expense.cs" />
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Model\ExpenseData.cs" />
     <Compile Include="ViewModel\DataViewViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\DataView.xaml.cs">

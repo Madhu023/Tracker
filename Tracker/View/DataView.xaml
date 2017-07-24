@@ -28,29 +28,51 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-            <Label Name="lbl_Name"> Path :</Label>
+            <Label Name="lbl_Name">Path :</Label>
             <TextBox Name="txt_FilePath" Width="240" VerticalContentAlignment="Center" IsReadOnly="True" Margin="8,0"
                      Text="{Binding FileName}" 
                      ToolTip="{Binding FileName}" />
             <Button Name="btn_Browse" Command="{Binding BrowseCommand}" Content=" Load "/>
         </StackPanel>
-        <ListView Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ExpenseData}">
-            <ListView.View>
-                <GridView AllowsColumnReorder="true">
-                    <GridViewColumn Header="Date" Width="80"  DisplayMemberBinding="{Binding Path=Time, Converter={StaticResource TimeConverter}}"/>
-                    <GridViewColumn Header="Description" Width="140" DisplayMemberBinding="{Binding Path=Description}" />
-                    <GridViewColumn Header="Type" Width="60">
-                        <!--<GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding}" SelectedValue="{Binding}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>-->
-                    </GridViewColumn>
-                    <GridViewColumn Header="Amount" Width="60" DisplayMemberBinding="{Binding Path=Amount}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-       
-        
-    </Grid>
+        <!--<DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
+                                               SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
+                                               AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
+
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
+                <DataGridTextColumn Header="Description" Width="140" Binding="{Binding Path=Description}"/>
+                <DataGridTextColumn Header="Type" Width="60" Binding="{Binding Path=Type}"/>
+                <DataGridTextColumn Header="Amount" Width="60" Binding="{Binding Path=Amount}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>-->
+
+
+        <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding YearWiseExpenses, Mode=TwoWay}"
+                  IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Year" Width="100" Binding="{Binding Year}"/>
+                <DataGridTextColumn Header="Total Expense" Width="180" Binding="{Binding TotalExpense}"/>
+            </DataGrid.Columns>
+
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid Grid.Column="1" ItemsSource="{Binding MonthlyData}" HeadersVisibility="Column" IsReadOnly="True"/>
+                    </Grid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+            
+        </DataGrid>
+            
+     </Grid>
 </UserControl>
+

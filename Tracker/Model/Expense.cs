@@ -15,6 +15,6 @@ namespace Tracker.Model
         public Double Amount { get; set; }
 
         [DefaultValue("Groceries")]
-        public String Type { get; set; }
+        public String Type { get; set; } = "Groceries";
     }
 }
