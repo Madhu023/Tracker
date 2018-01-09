@@ -13,7 +13,7 @@ namespace Tracker.BO
         public string CreateTableQuery = @"CREATE TABLE IF NOT EXISTS ExpenseTable (
                                           [ID] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                                           [Description] NVARCHAR(2048) NULL,
-                                          [Amount] INTEGER NOT NULL,
+                                          [Amount] REAL NOT NULL,
                                           [Date] TEXT(2018) NULL
                                           )";
 

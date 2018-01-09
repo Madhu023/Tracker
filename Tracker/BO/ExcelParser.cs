@@ -1,35 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tracker.Model;
 
 namespace Tracker.BO
 {
     public class ExcelParser
     {
-        public static IList<Expense> Parse(String FileName)
+        public static async Task<IList<Expense>> Parse(String FileName)
         {
             IList<Expense> expenseData = new List<Expense>();
             try
             {
-                Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
-                Microsoft.Office.Interop.Excel.Workbook workBook = excelApp.Workbooks.Open(FileName);
-
-                foreach (Microsoft.Office.Interop.Excel.Worksheet sheet in workBook.Worksheets)
+                await Task.Run(() =>
                 {
-                    foreach (Microsoft.Office.Interop.Excel.Range row in sheet.UsedRange.Rows)
+                    Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+                    Microsoft.Office.Interop.Excel.Workbook workBook = excelApp.Workbooks.Open(FileName);
+                    foreach (Microsoft.Office.Interop.Excel.Worksheet sheet in workBook.Worksheets)
                     {
-                        if (!String.IsNullOrEmpty(sheet.Cells[row.Row, 1].Text) && sheet.Cells[row.Row, 1].Text != "Date")
+                        foreach (Microsoft.Office.Interop.Excel.Range row in sheet.UsedRange.Rows)
                         {
-                            expenseData.Add(new Expense
+                            if (!String.IsNullOrEmpty(sheet.Cells[row.Row, 1].Text) && sheet.Cells[row.Row, 1].Text != "Date")
                             {
-                                Time = Convert.ToDateTime(sheet.Cells[row.Row, 1].Text),
-                                Description = sheet.Cells[row.Row, 2].Value2.ToString(),
-                                Amount = Convert.ToDouble(sheet.Cells[row.Row, 3].Value2.ToString())
-                            });
+                                expenseData.Add(new Expense
+                                {
+                                    Time = Convert.ToDateTime(sheet.Cells[row.Row, 1].Text),
+                                    Description = sheet.Cells[row.Row, 2].Value2.ToString(),
+                                    Amount = Convert.ToDouble(sheet.Cells[row.Row, 3].Value2.ToString())
+                                });
+                            }
                         }
                     }
-                }
-                excelApp.Quit();
+                    excelApp.Quit();
+                });
+
                 return expenseData;
             }
             catch (Exception exp)

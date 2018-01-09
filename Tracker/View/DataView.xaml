@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Tracker.View"
              xmlns:viewmodel="clr-namespace:Tracker.ViewModel"
              xmlns:common ="clr-namespace:Tracker.Common"
+             xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <viewmodel:DataViewViewModel/>
@@ -18,7 +19,11 @@
             <RowDefinition Height="8"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="8"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="8"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="8"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -28,13 +33,22 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-            <Label Name="lbl_Name">Path :</Label>
+            <Label Name="lbl_Name" Content="Path :"/>
             <TextBox Name="txt_FilePath" Width="240" VerticalContentAlignment="Center" IsReadOnly="True" Margin="8,0"
                      Text="{Binding FileName}" 
                      ToolTip="{Binding FileName}" />
             <Button Name="btn_Browse" Command="{Binding BrowseCommand}" Content=" Load "/>
         </StackPanel>
-        <!--<DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+            <Label Name="lbl_StartDate" Content="Start Date :"/>
+            <DatePicker Name="dtpck_StartDate" Text="{Binding StartDate}"/>
+            <Label Name="lbl_EndtDate" Content="End Date :"/>
+            <DatePicker Name="dtpck_EndDate" Text="{Binding EndDate}"/>
+            <Button Name="btn_Filter" Margin="8,0" Command="{Binding FilterCommand}" Content=" Filter "/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
                                                SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
                                                AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
 
@@ -45,11 +59,15 @@
                 <DataGridTextColumn Header="Amount" Width="60" Binding="{Binding Path=Amount}"/>
             </DataGrid.Columns>
             
-        </DataGrid>-->
+        </DataGrid>
 
-
-        <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding YearWiseExpenses, Mode=TwoWay}"
-                  IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
+            <Label Name="lbl_TotalAmount" Content="Total = "/>
+            <Label Name="lbl_Value" Content="{Binding TotalValue, Mode=TwoWay}"/>
+        </StackPanel>
+        <!--<DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding YearWiseExpenses, Mode=TwoWay}"
+                  IsReadOnly="True" AutoGenerateColumns="False" 
+                  HeadersVisibility="Column" RowDetailsVisibilityMode="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Year" Width="100" Binding="{Binding Year}"/>
                 <DataGridTextColumn Header="Total Expense" Width="180" Binding="{Binding TotalExpense}"/>
@@ -71,8 +89,20 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
             
-        </DataGrid>
-            
-     </Grid>
+        </DataGrid>-->
+
+             <!--<chart:ClusteredColumnChart Grid.Row="3" Grid.Column="1"
+                ChartTitle="Monthly Expense Chart"
+                Padding="10"
+                DataContext="{Binding YearWiseExpenses[1], Mode=TwoWay}" >
+            <chart:ClusteredColumnChart.Series>
+                <chart:ChartSeries
+                SeriesTitle="Expenses"
+                DisplayMember="Month"
+                ValueMember="Amount"
+                ItemsSource="{Binding Path=MonthlyData}" />
+            </chart:ClusteredColumnChart.Series>
+        </chart:ClusteredColumnChart>-->
+    </Grid>
 </UserControl>
 

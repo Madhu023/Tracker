@@ -10,11 +10,12 @@ namespace Tracker.Model
     public class Expense
     {
         public String Description { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Time { get; set; } = DateTime.Today;
 
-        public Double Amount { get; set; }
+        public Double Amount { get; set; } = 0.0;
 
         [DefaultValue("Groceries")]
+
         public String Type { get; set; } = "Groceries";
     }
 }

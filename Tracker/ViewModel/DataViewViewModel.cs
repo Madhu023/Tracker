@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Tracker.BO;
 using Tracker.Common;
 using Tracker.Model;
@@ -20,9 +21,15 @@ namespace Tracker.ViewModel
 
         private ObservableCollection<YearlyExpenseData> _yearWiseExpenses;
 
+        private DateTime _startDate;
+
+        private DateTime _endDate;
+
         private IQueryHandler _queryHandler;
 
         private Expense _selectedExpense;
+
+        private string _totalValue;
 
         public string FileName
         {
@@ -72,7 +79,7 @@ namespace Tracker.ViewModel
 
         public ObservableCollection<YearlyExpenseData> YearWiseExpenses
         {
-            get => _yearWiseExpenses;
+            get { return _yearWiseExpenses; }
             set
             {
                 _yearWiseExpenses = value;
@@ -80,15 +87,54 @@ namespace Tracker.ViewModel
             }
         }
 
-        private void LoadData()
+        public DateTime StartDate
+        {
+            get { return _startDate; }
+            set 
+            {
+                _startDate = value;
+                this.OnPropertyChanged("StartDate");
+            }
+        }
+        public DateTime EndDate
+        {
+            get { return _endDate; }
+            set
+            {
+                _endDate = value;
+                this.OnPropertyChanged("EndDate");
+            }
+        }
+
+        public string TotalValue
+        {
+            get { return _totalValue; }
+            set
+            {
+                _totalValue = value;
+                this.OnPropertyChanged("TotalValue");
+            }
+        }
+
+
+        private async void LoadData()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             FileName = fileDialog.FileName;
             ExpenseData.Clear();
-            ExpenseData = new ObservableCollection<Expense>(ExcelParser.Parse(FileName));
+            YearWiseExpenses.Clear();
 
-           QueryHandler.GetDBConnector().ImportDataBase(ExpenseData);
+            var Result = await ExcelParser.Parse(FileName);
+
+            ExpenseData = new ObservableCollection<Expense>(Result);
+
+           await  Task.Run(() =>
+            {
+                QueryHandler.GetDBConnector().ImportDataBase(ExpenseData);
+            });
+
+            PopulateData();
         }
 
         public DataViewViewModel()
@@ -97,37 +143,43 @@ namespace Tracker.ViewModel
             _queryHandler = QueryHandler.GetDBConnector();
 
             YearWiseExpenses = new ObservableCollection<YearlyExpenseData>();
-            PopulateData();
-        }
 
+            PopulateData();
+
+            StartDate = EndDate = new DateTime();
+
+        }
 
         private void PopulateData()
         {
             ExpenseData = new ObservableCollection<Expense>(_queryHandler.GetExpenseData());
 
-            var yearlyExpenses = ExpenseData.GroupBy(year => year.Time.Year).ToList();
+            TotalValue = ExpenseData.Sum(var => var.Amount).ToString();
+            ////await Task.Run(() =>
+            //{
+            //    var yearlyExpenses = ExpenseData.GroupBy(year => year.Time.Year).ToList();
 
-            foreach (var yearlyExpense in yearlyExpenses)
-            {
-                YearlyExpenseData yearlyExpenseData = new YearlyExpenseData();
+            //    foreach (var yearlyExpense in yearlyExpenses)
+            //    {
+            //        YearlyExpenseData yearlyExpenseData = new YearlyExpenseData();
 
-                yearlyExpenseData.Year = yearlyExpense.Key;
+            //        yearlyExpenseData.Year = yearlyExpense.Key;
 
-                var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
+            //        var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
 
-                
-                foreach (var monthlyExpense in monthlyExpenseDetails)
-                {
-                    yearlyExpenseData.MonthlyData.Add(new MonthlyExpenseData() { Month = monthlyExpense.Key, Amount = monthlyExpense.Sum(var => var.Amount) });
-                }
 
-                yearlyExpenseData.TotalExpense = yearlyExpenseData.MonthlyData.Sum(var => var.Amount);
+            //        foreach (var monthlyExpense in monthlyExpenseDetails)
+            //        {
+            //            yearlyExpenseData.MonthlyData.Add(new MonthlyExpenseData() { Month = monthlyExpense.Key, Amount = monthlyExpense.Sum(var => var.Amount) });
+            //        }
 
-                YearWiseExpenses.Add(yearlyExpenseData);
-            }
+            //        yearlyExpenseData.TotalExpense = yearlyExpenseData.MonthlyData.Sum(var => var.Amount);
+
+            //        YearWiseExpenses.Add(yearlyExpenseData);
+            //    }
+            //    //});
+            //}
 
         }
     }
-
-
 }

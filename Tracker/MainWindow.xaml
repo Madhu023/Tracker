@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tracker"
         xmlns:usercontrol="clr-namespace:Tracker.View"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        mc:Ignorable="d"  MaxHeight="600" SizeToContent="Width"
         Title="MainWindow">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,7 +18,13 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
         </Grid.ColumnDefinitions>
-
-        <usercontrol:DataView Grid.Row="1" Grid.Column="1"/>
+        <TabControl Name="tb_Tabs" Grid.Row="1" Grid.Column="1">
+            <TabItem Name="tb_View" Header="View">
+                <usercontrol:DataView/>
+            </TabItem>
+            <TabItem Name="tb_AddView" Header="Add">
+                <usercontrol:AddView HorizontalContentAlignment="Left"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
