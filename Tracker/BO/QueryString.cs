@@ -12,16 +12,22 @@ namespace Tracker.BO
 
         public string CreateTableQuery = @"CREATE TABLE IF NOT EXISTS ExpenseTable (
                                           [ID] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                                          [Description] NVARCHAR(2048) NULL,
-                                          [Amount] REAL NOT NULL,
-                                          [Date] TEXT(2018) NULL
+                                          [Date] TEXT(2018) NULL,
+                                          [Type] TEXT(2018) NULL,
+                                          [Amount] REAL NOT NULL
                                           )";
 
-        public string InsertDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Description, Amount, Date) Values ('{0}','{1}','{2}')";
+        public string InsertDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Date, Type, Amount) Values ('{0}','{1}','{2}')";
 
         public string ExpenseCountQuery = @"SELECT SUM(Amount) As Total FROM ExpenseTable";
 
-        public string ExpenseDataQuery = @"SELECT * FROM ExpenseTable";
+        public string ExpenseDataQueryByType = @"SELECT Date, Type, SUM(Amount) FROM ExpenseTable GROUP BY Type";
+
+        public string ExpenseDataQuery = @"SELECT Date, Type, Amount FROM ExpenseTable";
+
+        public string ExpenseTypesQuery = @"SELECT Type FROM ExpenseTable GROUP BY Type";
+
+        public string TimedExpenseDataQuery = @"SELECT * FROM ExpenseTable";
 
     }
 }

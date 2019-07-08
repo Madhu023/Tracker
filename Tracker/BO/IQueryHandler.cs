@@ -7,12 +7,14 @@ using Tracker.Model;
 
 namespace Tracker.BO
 {
-    public interface IQueryHandler
+    public interface IQueryHandler<T>
     {
-        bool ImportDataBase(IList<Expense> ExpenseData);
+        bool ImportDataBase(IList<T> ExpenseData);
 
-        IList<Expense> GetExpenseData();
+        bool AddExpense(T ExpenseInfo);
 
-        void TestFunction();
+        IList<T> GetExpenseData();
+
+        IList<T> GetExpenseDataByCategory();
     }
 }

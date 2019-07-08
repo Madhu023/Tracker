@@ -109,6 +109,7 @@
     <Compile Include="Model\Expense.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Model\ExpenseData.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModel\AddViewViewModel.cs" />
     <Compile Include="ViewModel\DataViewViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -117,6 +118,12 @@
     </Compile>
     <Compile Include="View\DataView.xaml.cs">
       <DependentUpon>DataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IncomeView.xaml.cs">
+      <DependentUpon>IncomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InvestmentView.xaml.cs">
+      <DependentUpon>InvestmentView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +142,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\IncomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InvestmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

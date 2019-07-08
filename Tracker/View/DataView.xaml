@@ -30,6 +30,8 @@
             <ColumnDefinition Width="8"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
@@ -47,20 +49,35 @@
             <DatePicker Name="dtpck_EndDate" Text="{Binding EndDate}"/>
             <Button Name="btn_Filter" Margin="8,0" Command="{Binding FilterCommand}" Content=" Filter "/>
         </StackPanel>
-        
-        <DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
-                                               SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
-                                               AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
 
+        <DataGrid Grid.Row="5" Grid.Column="1"
+                  ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
+                  SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
+                  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
-                <DataGridTextColumn Header="Description" Width="140" Binding="{Binding Path=Description}"/>
-                <DataGridTextColumn Header="Type" Width="60" Binding="{Binding Path=Type}"/>
-                <DataGridTextColumn Header="Amount" Width="60" Binding="{Binding Path=Amount}"/>
+                <!--<DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />-->
+                <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}">
+                    <!--<DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>-->
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Amount" Width="*" Binding="{Binding Path=Amount}"/>
             </DataGrid.Columns>
-            
         </DataGrid>
 
+        <chart:DoughnutChart Grid.Row="5" Grid.Column="3" ChartSubTitle="" ChartLegendVisibility="Hidden"
+                            ChartTitle="Expense" Padding="10" HorizontalContentAlignment="Right">
+            <chart:DoughnutChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:DoughnutChart.Series>
+        </chart:DoughnutChart>
+        
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
             <Label Name="lbl_TotalAmount" Content="Total = "/>
             <Label Name="lbl_Value" Content="{Binding TotalValue, Mode=TwoWay}"/>
@@ -91,18 +108,18 @@
             
         </DataGrid>-->
 
-             <!--<chart:ClusteredColumnChart Grid.Row="3" Grid.Column="1"
+             <!--<chart:PieChart Grid.Row="5" Grid.Column="1"
                 ChartTitle="Monthly Expense Chart"
                 Padding="10"
                 DataContext="{Binding YearWiseExpenses[1], Mode=TwoWay}" >
-            <chart:ClusteredColumnChart.Series>
+            <chart:PieChart.Series>
                 <chart:ChartSeries
                 SeriesTitle="Expenses"
                 DisplayMember="Month"
                 ValueMember="Amount"
                 ItemsSource="{Binding Path=MonthlyData}" />
-            </chart:ClusteredColumnChart.Series>
-        </chart:ClusteredColumnChart>-->
+            </chart:PieChart.Series>
+        </chart:PieChart>-->
     </Grid>
 </UserControl>
 

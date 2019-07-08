@@ -9,7 +9,7 @@ namespace Tracker.Model
 {
     public class Expense
     {
-        public String Description { get; set; }
+        public Int64 TransactionId { get; set; }
         public DateTime Time { get; set; } = DateTime.Today;
 
         public Double Amount { get; set; } = 0.0;
@@ -17,5 +17,6 @@ namespace Tracker.Model
         [DefaultValue("Groceries")]
 
         public String Type { get; set; } = "Groceries";
+
     }
 }

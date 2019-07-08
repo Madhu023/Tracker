@@ -7,9 +7,9 @@ using Tracker.Model;
 
 namespace Tracker.BO
 {
-    public class QueryHandler : IQueryHandler
+    public class QueryHandler : IQueryHandler<Expense>
     {
-        private static IQueryHandler _queryHandler;
+        private static IQueryHandler<Expense> _queryHandler;
 
         private SQLiteConnection _connection;
 
@@ -26,7 +26,7 @@ namespace Tracker.BO
             set { _queryObj = value; }
         }
 
-        public static IQueryHandler GetDBConnector()
+        public static IQueryHandler<Expense> GetDBConnector()
         {
             if (null == _queryHandler)
             {
@@ -53,11 +53,14 @@ namespace Tracker.BO
 
         public bool ImportDataBase(IList<Expense> ExpenseData)
         {
-            foreach (var data in ExpenseData)
+            bool Result = true;
+            foreach (var ExpenseInfo in ExpenseData)
             {
-                ExecuteQuery(string.Format(QueryObj.InsertDataQuery, data.Description, data.Amount, data.Time.ToString("yyyy - MM - dd HH: mm:ss")));
+                Result = AddExpense(ExpenseInfo);
+                if (!Result)
+                    break;
             }
-            return true;
+            return Result;
         }
 
 
@@ -83,19 +86,25 @@ namespace Tracker.BO
 
         public IList<Expense> GetExpenseData()
         {
-            List<Expense> Data = new List<Expense>();
-            SQLiteCommand command = GetSqlCommand(QueryObj.ExpenseDataQuery);
+            return GetExpense(ref QueryObj.ExpenseDataQuery);
+        }
+
+
+        private IList<Expense> GetExpense(ref string QueryString)
+        {
+            IList<Expense> Data = new List<Expense>();
+            SQLiteCommand command = GetSqlCommand(QueryString);
 
             Connection.Open();
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                while(reader.Read())
+                while (reader.Read())
                 {
                     Data.Add(new Expense
                     {
-                        Time = Convert.ToDateTime(reader["Date"]),
-                        Description = reader["Description"].ToString(),
-                        Amount = Convert.ToDouble(reader["Amount"].ToString())
+                        Time = Convert.ToDateTime(reader[0]),
+                        Type = reader[1].ToString(),
+                        Amount = Convert.ToDouble(reader[2].ToString())
                     });
                 }
             }
@@ -105,19 +114,14 @@ namespace Tracker.BO
             return Data;
         }
 
-        public void TestFunction()
+        public IList<Expense> GetExpenseDataByCategory()
         {
-            SQLiteCommand command = GetSqlCommand(QueryObj.ExpenseCountQuery);
+            return GetExpense(ref QueryObj.ExpenseDataQueryByType);
+        }
 
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                }
-            }
-            Connection.Close();
-            command.Dispose();
+        public bool AddExpense(Expense ExpenseInfo)
+        {
+            return ExecuteQuery(string.Format(QueryObj.InsertDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount));
         }
     }
 }

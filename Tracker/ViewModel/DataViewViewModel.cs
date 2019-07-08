@@ -17,6 +17,8 @@ namespace Tracker.ViewModel
 
         private RelayCommand _browseCommand;
 
+        private RelayCommand _filterCommand;
+
         private ObservableCollection<Expense> _expenseData;
 
         private ObservableCollection<YearlyExpenseData> _yearWiseExpenses;
@@ -25,7 +27,7 @@ namespace Tracker.ViewModel
 
         private DateTime _endDate;
 
-        private IQueryHandler _queryHandler;
+        private IQueryHandler<Expense> _queryHandler;
 
         private Expense _selectedExpense;
 
@@ -46,7 +48,7 @@ namespace Tracker.ViewModel
         {
             get
             {
-                if (null == _browseCommand)
+                if (_browseCommand == null)
                 {
                     _browseCommand = new RelayCommand(param => this.LoadData());
 
@@ -96,6 +98,7 @@ namespace Tracker.ViewModel
                 this.OnPropertyChanged("StartDate");
             }
         }
+
         public DateTime EndDate
         {
             get { return _endDate; }
@@ -116,6 +119,17 @@ namespace Tracker.ViewModel
             }
         }
 
+        internal RelayCommand FilterCommand
+        {
+            get
+            {
+                if(_filterCommand == null)
+                {
+                    _filterCommand = new RelayCommand(param => this.FilterData());
+                }
+                return _filterCommand;
+            }
+        }
 
         private async void LoadData()
         {
@@ -146,40 +160,46 @@ namespace Tracker.ViewModel
 
             PopulateData();
 
-            StartDate = EndDate = new DateTime();
+            StartDate = EndDate = DateTime.Today;
 
         }
 
         private void PopulateData()
         {
-            ExpenseData = new ObservableCollection<Expense>(_queryHandler.GetExpenseData());
+            ExpenseData = new ObservableCollection<Expense>(_queryHandler.GetExpenseDataByCategory());
 
             TotalValue = ExpenseData.Sum(var => var.Amount).ToString();
-            ////await Task.Run(() =>
-            //{
-            //    var yearlyExpenses = ExpenseData.GroupBy(year => year.Time.Year).ToList();
+            //await Task.Run(() =>
+            {
+                var yearlyExpenses = ExpenseData.GroupBy(year => year.Time.Year).ToList();
 
-            //    foreach (var yearlyExpense in yearlyExpenses)
-            //    {
-            //        YearlyExpenseData yearlyExpenseData = new YearlyExpenseData();
+                foreach (var yearlyExpense in yearlyExpenses)
+                {
+                    YearlyExpenseData yearlyExpenseData = new YearlyExpenseData();
 
-            //        yearlyExpenseData.Year = yearlyExpense.Key;
+                    yearlyExpenseData.Year = yearlyExpense.Key;
 
-            //        var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
+                    var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
 
 
-            //        foreach (var monthlyExpense in monthlyExpenseDetails)
-            //        {
-            //            yearlyExpenseData.MonthlyData.Add(new MonthlyExpenseData() { Month = monthlyExpense.Key, Amount = monthlyExpense.Sum(var => var.Amount) });
-            //        }
+                    foreach (var monthlyExpense in monthlyExpenseDetails)
+                    {
+                        yearlyExpenseData.MonthlyData.Add(new MonthlyExpenseData() { Month = monthlyExpense.Key, Amount = monthlyExpense.Sum(var => var.Amount) });
+                    }
 
-            //        yearlyExpenseData.TotalExpense = yearlyExpenseData.MonthlyData.Sum(var => var.Amount);
+                    yearlyExpenseData.TotalExpense = yearlyExpenseData.MonthlyData.Sum(var => var.Amount);
 
-            //        YearWiseExpenses.Add(yearlyExpenseData);
-            //    }
-            //    //});
-            //}
+                    YearWiseExpenses.Add(yearlyExpenseData);
+                }
+                //});
+            }
+        }
 
+
+        private void FilterData()
+        {
+            ExpenseData.Clear();
+            TotalValue = string.Empty;
         }
     }
 }
