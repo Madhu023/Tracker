@@ -43,7 +43,10 @@ namespace Tracker.ViewModel
 
         public ObservableCollection<string> ExpenseTypes
         {
-            get => _expenseTypes;
+            get
+            {
+                return _expenseTypes;
+            }
             set
             {
                 _expenseTypes = value;
@@ -53,7 +56,10 @@ namespace Tracker.ViewModel
 
         public ObservableCollection<Expense> Expenses
         {
-            get => _expenses;
+            get
+            {
+                return _expenses;
+            }
             set
             {
                 _expenses = value;

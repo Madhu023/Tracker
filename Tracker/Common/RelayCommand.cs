@@ -13,8 +13,15 @@ namespace Tracker.Common
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            _execute = execute ?? throw new ArgumentNullException("execute");
-            _canExecute = canExecute;
+            if (execute == null)
+            {
+                throw new ArgumentNullException("execute");
+            }
+            else
+            {
+                _execute = execute;
+                _canExecute = canExecute;
+            }
         }
         public event EventHandler CanExecuteChanged
         {

@@ -20,7 +20,10 @@ namespace Tracker.ViewModel
 
         public Income IncomeInfo
         {
-            get => _incomeInfo;
+            get
+            {
+                return _incomeInfo;
+            }
             set
             {
                 _incomeInfo = value;
@@ -42,7 +45,10 @@ namespace Tracker.ViewModel
 
         public ObservableCollection<string> Types
         {
-            get => _types;
+            get
+            {
+                return _types;
+            }
             set
             {
                 _types = value;
@@ -52,7 +58,10 @@ namespace Tracker.ViewModel
 
         public ObservableCollection<Income> Income
         {
-            get => _income;
+            get
+            {
+                return _income;
+            }
             set
             {
                 _income = value;

@@ -5,11 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:Tracker.ViewModel"
              xmlns:validator="clr-namespace:Tracker.Common"
-             mc:Ignorable="d">
-    <UserControl.DataContext>
-        <vm:ExpenseViewViewModel/>
-    </UserControl.DataContext>
-    <UserControl.Resources>
+             mc:Ignorable="d"
+             vm:ViewModelLocator.AutoWireProperty="True">
+     <UserControl.Resources>
         <validator:DateTimeConverter x:Key="TimeConverter"/>
     </UserControl.Resources>
     <Grid>

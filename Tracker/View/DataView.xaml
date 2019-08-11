@@ -4,13 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tracker.View"
-             xmlns:viewmodel="clr-namespace:Tracker.ViewModel"
+             xmlns:vm="clr-namespace:Tracker.ViewModel"
              xmlns:common ="clr-namespace:Tracker.Common"
              xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
-             mc:Ignorable="d">
-    <UserControl.DataContext>
-        <viewmodel:DataViewViewModel/>
-    </UserControl.DataContext>
+             mc:Ignorable="d"
+             vm:ViewModelLocator.AutoWireProperty="True">
     <UserControl.Resources>
         <common:DateTimeConverter x:Key="TimeConverter"/>
     </UserControl.Resources>
