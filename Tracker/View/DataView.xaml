@@ -23,10 +23,14 @@
             <RowDefinition Height="8"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="8"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="8"/>
+            <!--<RowDefinition Height="*"/>
+            <RowDefinition Height="55"/>-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
@@ -40,31 +44,113 @@
             <Button Name="btn_Browse" Command="{Binding BrowseCommand}" Content=" Load "/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5">
             <Label Name="lbl_StartDate" Content="Start Date :"/>
             <DatePicker Name="dtpck_StartDate" Text="{Binding StartDate}"/>
             <Label Name="lbl_EndtDate" Content="End Date :"/>
             <DatePicker Name="dtpck_EndDate" Text="{Binding EndDate}"/>
             <Button Name="btn_Filter" Margin="8,0" Command="{Binding FilterCommand}" Content=" Filter "/>
         </StackPanel>
-        
-        <DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
-                                               SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
-                                               AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
 
+        <!--<DataGrid Grid.Row="5" Grid.Column="1"
+                  ItemsSource="{Binding ExpenseData, Mode=TwoWay}" IsReadOnly="True"
+                  SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
+                  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
-                <DataGridTextColumn Header="Description" Width="140" Binding="{Binding Path=Description}"/>
-                <DataGridTextColumn Header="Type" Width="60" Binding="{Binding Path=Type}"/>
-                <DataGridTextColumn Header="Amount" Width="60" Binding="{Binding Path=Amount}"/>
+                --><!--<DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />--><!--
+                <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}">
+                    --><!--<DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>--><!--
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Amount" Width="*" Binding="{Binding Path=Amount}"/>
             </DataGrid.Columns>
-            
-        </DataGrid>
+        </DataGrid>-->
 
-        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
+        <!--<chart:PieChart Name="Expenses" Grid.Row="5" Grid.Column="1" Series="{Binding ExpenseData}" 
+                      LegendLocation="Right" InnerRadius="80" Margin="0 15">
+            <chart:PieChart.ChartLegend>
+                <chart:DefaultLegend BulletSize="20"></chart:DefaultLegend>
+            </chart:PieChart.ChartLegend>
+            <chart:PieChart.DataTooltip>
+                <chart:DefaultTooltip BulletSize="20"></chart:DefaultTooltip>
+            </chart:PieChart.DataTooltip>
+        </chart:PieChart>-->
+        <chart:PieChart Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"
+                        ChartLegendVisibility="Hidden" 
+                        ChartTitle="Expense" ChartSubTitle=""
+                        HorizontalContentAlignment="Right"
+                        FontFamily="Times New Roman">
+            <chart:PieChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:PieChart.Series>
+        </chart:PieChart>
+
+        <!--<chart:ClusteredBarChart Grid.Row="5" Grid.Column="3" ChartSubTitle="" ChartLegendVisibility="Hidden"
+                            ChartTitle="Expense" Padding="10" HorizontalContentAlignment="Right">
+            <chart:ClusteredBarChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:ClusteredBarChart.Series>
+        </chart:ClusteredBarChart>-->
+
+        <!--<chart:PieChart Grid.Row="5" Grid.Column="5" ChartSubTitle="" ChartLegendVisibility="Hidden"
+                            ChartTitle="Expense" Padding="10" HorizontalContentAlignment="Right">
+            <chart:PieChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:PieChart.Series>
+        </chart:PieChart>-->
+
+         <!--<chart:DoughnutChart Grid.Row="7" Grid.Column="1" ChartSubTitle="" ChartLegendVisibility="Hidden"
+                            ChartTitle="Expense" Padding="10" HorizontalContentAlignment="Right">
+            <chart:DoughnutChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:DoughnutChart.Series>
+        </chart:DoughnutChart>-->
+        
+         <!--<chart:ClusteredColumnChart Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" ChartSubTitle="" ChartLegendVisibility="Hidden"
+                            ChartTitle="Expense" Padding="10" HorizontalContentAlignment="Right">
+            <chart:ClusteredColumnChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:ClusteredColumnChart.Series>
+        </chart:ClusteredColumnChart>-->
+
+        <!--<chart:PieChart Grid.Row="7" Grid.Column="5" ChartSubTitle="" ChartLegendVisibility="Hidden"
+                            ChartTitle="Expense" Padding="10" HorizontalContentAlignment="Right">
+            <chart:PieChart.Series>
+                <chart:ChartSeries
+            SeriesTitle="Expenses" 
+            DisplayMember="Type"
+            ValueMember="Amount"
+            ItemsSource="{Binding ExpenseData}" />
+            </chart:PieChart.Series>
+        </chart:PieChart>-->
+
+        <!--<StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
             <Label Name="lbl_TotalAmount" Content="Total = "/>
             <Label Name="lbl_Value" Content="{Binding TotalValue, Mode=TwoWay}"/>
-        </StackPanel>
+        </StackPanel>-->
         <!--<DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding YearWiseExpenses, Mode=TwoWay}"
                   IsReadOnly="True" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" RowDetailsVisibilityMode="Visible">
@@ -91,18 +177,18 @@
             
         </DataGrid>-->
 
-             <!--<chart:ClusteredColumnChart Grid.Row="3" Grid.Column="1"
+             <!--<chart:PieChart Grid.Row="5" Grid.Column="1"
                 ChartTitle="Monthly Expense Chart"
                 Padding="10"
                 DataContext="{Binding YearWiseExpenses[1], Mode=TwoWay}" >
-            <chart:ClusteredColumnChart.Series>
+            <chart:PieChart.Series>
                 <chart:ChartSeries
                 SeriesTitle="Expenses"
                 DisplayMember="Month"
                 ValueMember="Amount"
                 ItemsSource="{Binding Path=MonthlyData}" />
-            </chart:ClusteredColumnChart.Series>
-        </chart:ClusteredColumnChart>-->
+            </chart:PieChart.Series>
+        </chart:PieChart>-->
     </Grid>
 </UserControl>
 

@@ -25,7 +25,8 @@ namespace Tracker.BO
                                 expenseData.Add(new Expense
                                 {
                                     Time = Convert.ToDateTime(sheet.Cells[row.Row, 1].Text),
-                                    Description = sheet.Cells[row.Row, 2].Value2.ToString(),
+                                    Type = sheet.Cells[row.Row, 2].Value2.ToString().Trim(),
+                                   // Type = Categories.Contains(sheet.Cells[row.Row, 2].Value2.ToString()) ? "Groceries" : "Undefined",
                                     Amount = Convert.ToDouble(sheet.Cells[row.Row, 3].Value2.ToString())
                                 });
                             }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tracker"
         xmlns:usercontrol="clr-namespace:Tracker.View"
-        mc:Ignorable="d"  MaxHeight="600" SizeToContent="Width"
+        mc:Ignorable="d"  
         Title="MainWindow">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,12 +18,34 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
         </Grid.ColumnDefinitions>
-        <TabControl Name="tb_Tabs" Grid.Row="1" Grid.Column="1">
-            <TabItem Name="tb_View" Header="View">
+        <TabControl Name="tb_Tabs" Grid.Row="1" Grid.Column="1" TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ContentPresenter Content="{TemplateBinding Content}">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="270" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Padding" Value="15" />
+                </Style>
+            </TabControl.Resources>
+            <TabItem Name="tb_View" Header="Home">
                 <usercontrol:DataView/>
             </TabItem>
-            <TabItem Name="tb_AddView" Header="Add">
-                <usercontrol:AddView HorizontalContentAlignment="Left"/>
+            <TabItem Name="tb_ExpenseView" Header="Expense">
+                <usercontrol:ExpenseView HorizontalContentAlignment="Left"/>
+            </TabItem>
+            <TabItem Name="tb_IncomeView" Header="Income">
+                <usercontrol:IncomeView HorizontalContentAlignment="Left" Margin="10,20"/>
+            </TabItem>
+            <TabItem Name="tb_InvestmentView" Header="Investment">
+                <usercontrol:InvestmentView HorizontalAlignment="Left" Margin="10,20"/>
             </TabItem>
         </TabControl>
     </Grid>

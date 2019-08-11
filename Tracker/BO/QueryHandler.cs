@@ -7,10 +7,8 @@ using Tracker.Model;
 
 namespace Tracker.BO
 {
-    public class QueryHandler : IQueryHandler
+    public abstract class QueryHandler
     {
-        private static IQueryHandler _queryHandler;
-
         private SQLiteConnection _connection;
 
         private QueryString _queryObj;
@@ -26,42 +24,22 @@ namespace Tracker.BO
             set { _queryObj = value; }
         }
 
-        public static IQueryHandler GetDBConnector()
-        {
-            if (null == _queryHandler)
-            {
-                _queryHandler = new QueryHandler();
-            }
-            return _queryHandler;
-        }
-
-        private QueryHandler()
+        protected QueryHandler()
         {
             QueryObj = new QueryString();
-            Initialize_Connection();
         }
 
-        private void Initialize_Connection()
+        protected void Initialize_Connection(ref string InitializeQuery)
         {
             if (!File.Exists(QueryObj.DatabaseFileName))
             {
                 SQLiteConnection.CreateFile(QueryObj.DatabaseFileName);        // Create the file which will be hosting our database
             }
             Connection = new SQLiteConnection("data source="+ QueryObj.DatabaseFileName);
-            ExecuteQuery(QueryObj.CreateTableQuery);
+            ExecuteQuery(InitializeQuery);
         }
 
-        public bool ImportDataBase(IList<Expense> ExpenseData)
-        {
-            foreach (var data in ExpenseData)
-            {
-                ExecuteQuery(string.Format(QueryObj.InsertDataQuery, data.Description, data.Amount, data.Time.ToString("yyyy - MM - dd HH: mm:ss")));
-            }
-            return true;
-        }
-
-
-        private bool ExecuteQuery(string CommandString)
+        protected bool ExecuteQuery(string CommandString)
         {
             Connection.Open();
             using (SQLiteCommand command = new SQLiteCommand(Connection))
@@ -73,51 +51,36 @@ namespace Tracker.BO
             return true;
         }
 
-
-        private SQLiteCommand GetSqlCommand(string CommandString)
+        protected SQLiteCommand GetSqlCommand(string CommandString)
         {
             SQLiteCommand command = new SQLiteCommand(Connection);
             command.CommandText = CommandString;
             return command;
         }
 
-        public IList<Expense> GetExpenseData()
-        {
-            List<Expense> Data = new List<Expense>();
-            SQLiteCommand command = GetSqlCommand(QueryObj.ExpenseDataQuery);
+        //private void GetExpense(ref string QueryString, ref IList<T> Data)
+        //{
+        //    //IList<Expense> Data = new List<Expense>();
+        //    SQLiteCommand command = GetSqlCommand(QueryString);
 
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
-            {
-                while(reader.Read())
-                {
-                    Data.Add(new Expense
-                    {
-                        Time = Convert.ToDateTime(reader["Date"]),
-                        Description = reader["Description"].ToString(),
-                        Amount = Convert.ToDouble(reader["Amount"].ToString())
-                    });
-                }
-            }
-            Connection.Close();
-            command.Dispose();
+        //    Connection.Open();
+        //    using (SQLiteDataReader reader = command.ExecuteReader())
+        //    {
+        //        while (reader.Read())
+        //        {
+        //            Data.Add(Activator.CreateInstance(typeof(T), new object[]
+        //            {
+        //                Time = Convert.ToDateTime(reader[0]),
+        //                Type = reader[1].ToString(),
+        //                Amount = Convert.ToDouble(reader[2].ToString())
+        //            }));
+        //        }
+        //    }
+        //    Connection.Close();
+        //    command.Dispose();
 
-            return Data;
-        }
+        //    //return Data;
+        //}
 
-        public void TestFunction()
-        {
-            SQLiteCommand command = GetSqlCommand(QueryObj.ExpenseCountQuery);
-
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                }
-            }
-            Connection.Close();
-            command.Dispose();
-        }
     }
 }
