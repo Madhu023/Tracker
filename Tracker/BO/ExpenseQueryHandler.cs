@@ -60,7 +60,7 @@ namespace Tracker.BO
 
         public bool Add(Expense ExpenseInfo)
         {
-            return ExecuteQuery(string.Format(QueryObj.InsertExpenseDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount));
+            return ExecuteQuery(string.Format(QueryObj.InsertExpenseDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount, ExpenseInfo.Description));
         }
 
         public bool ImportDataBase(IList<Expense> ExpenseData)

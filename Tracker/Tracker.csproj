@@ -127,6 +127,7 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Model\ExpenseData.cs" />
     <Compile Include="Model\Income.cs" />
+    <Compile Include="Model\Investment.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\ExpenseViewViewModel.cs" />
     <Compile Include="ViewModel\DataViewViewModel.cs" />

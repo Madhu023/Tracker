@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tracker.View"
              xmlns:vm="clr-namespace:Tracker.ViewModel"
+             xmlns:validator="clr-namespace:Tracker.Common"
              mc:Ignorable="d"
              vm:ViewModelLocator.AutoWireProperty="True">
+    <UserControl.Resources>
+        <validator:DateTimeConverter x:Key="TimeConverter"/>
+    </UserControl.Resources>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
@@ -41,17 +45,25 @@
 
             <Label Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right">Amount :</Label>
             <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2"
-                 VerticalContentAlignment="Center"
-                 Text="{Binding IncomeInfo.Amount, Mode=TwoWay}"/>
+                 VerticalContentAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="IncomeInfo.Amount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validator:DigitsValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <Button Grid.Row="7" Grid.Column="3"  Grid.ColumnSpan="2"
                 Height="35" Width="120"  HorizontalAlignment="Right"
                 Command="{Binding AddIncome}"
                 Content="Add Income"/>
         </Grid>
-        <DataGrid ItemsSource="{Binding Income, Mode=TwoWay}" 
-                  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <DataGrid HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                  ItemsSource="{Binding Income, Mode=TwoWay}" IsReadOnly="True"
+                  AutoGenerateColumns="False" >
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time}" />
+                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}"/>
                 <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}"/>
                 <DataGridTextColumn Header="Amount" Width="*" Binding="{Binding Path=Amount}"/>
             </DataGrid.Columns>
