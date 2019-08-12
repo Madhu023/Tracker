@@ -39,13 +39,13 @@
                 <usercontrol:DataView/>
             </TabItem>
             <TabItem Name="tb_ExpenseView" Header="Expense">
-                <usercontrol:AddView HorizontalContentAlignment="Left"/>
+                <usercontrol:ExpenseView HorizontalContentAlignment="Left"/>
             </TabItem>
             <TabItem Name="tb_IncomeView" Header="Income">
-                <!--<usercontrol:AddView HorizontalContentAlignment="Left"/>-->
+                <usercontrol:IncomeView HorizontalContentAlignment="Left" Margin="10,20"/>
             </TabItem>
             <TabItem Name="tb_InvestmentView" Header="Investment">
-                <!--<usercontrol:AddView HorizontalContentAlignment="Left"/>-->
+                <usercontrol:InvestmentView HorizontalAlignment="Left" Margin="10,20"/>
             </TabItem>
         </TabControl>
     </Grid>

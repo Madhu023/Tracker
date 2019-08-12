@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -145,7 +144,7 @@ namespace Tracker.ViewModel
 
            await  Task.Run(() =>
             {
-                QueryHandler.GetDBConnector().ImportDataBase(ExpenseData);
+                ExpenseQueryHandler.GetDBConnector().ImportDataBase(ExpenseData);
             });
 
             PopulateData();
@@ -154,7 +153,7 @@ namespace Tracker.ViewModel
         public DataViewViewModel()
         {
             FileName = "Select a File to Load";
-            _queryHandler = QueryHandler.GetDBConnector();
+            _queryHandler = ExpenseQueryHandler.GetDBConnector();
 
             YearWiseExpenses = new ObservableCollection<YearlyExpenseData>();
 
@@ -166,7 +165,7 @@ namespace Tracker.ViewModel
 
         private void PopulateData()
         {
-            ExpenseData = new ObservableCollection<Expense>(_queryHandler.GetExpenseDataByCategory());
+            ExpenseData = new ObservableCollection<Expense>(_queryHandler.GetDataByCategory());
 
             TotalValue = ExpenseData.Sum(var => var.Amount).ToString();
             //await Task.Run(() =>
@@ -175,9 +174,7 @@ namespace Tracker.ViewModel
 
                 foreach (var yearlyExpense in yearlyExpenses)
                 {
-                    YearlyExpenseData yearlyExpenseData = new YearlyExpenseData();
-
-                    yearlyExpenseData.Year = yearlyExpense.Key;
+                    YearlyExpenseData yearlyExpenseData = new YearlyExpenseData { Year = yearlyExpense.Key };
 
                     var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
 

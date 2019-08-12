@@ -3,11 +3,11 @@
 namespace Tracker.View
 {
     /// <summary>
-    /// Interaction logic for IncomeView.xaml
+    /// Interaction logic for ExpenseView.xaml
     /// </summary>
-    public partial class IncomeView : UserControl
+    public partial class ExpenseView : UserControl
     {
-        public IncomeView()
+        public ExpenseView()
         {
             InitializeComponent();
         }

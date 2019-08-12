@@ -9,12 +9,12 @@ namespace Tracker.BO
 {
     public interface IQueryHandler<T>
     {
-        bool ImportDataBase(IList<T> ExpenseData);
+        bool ImportDataBase(IList<T> Data);
 
-        bool AddExpense(T ExpenseInfo);
+        bool Add(T Data);
 
-        IList<T> GetExpenseData();
+        IList<T> GetData();
 
-        IList<T> GetExpenseDataByCategory();
+        IList<T> GetDataByCategory();
     }
 }

@@ -18,5 +18,6 @@ namespace Tracker.Model
 
         public String Type { get; set; } = "Groceries";
 
+        public String Description { get; set; }
     }
 }
