@@ -5,22 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tracker.View"
              xmlns:vm="clr-namespace:Tracker.ViewModel"
+             xmlns:validator="clr-namespace:Tracker.Common"
              mc:Ignorable="d"
              vm:ViewModelLocator.AutoWireProperty="True">
+    <UserControl.Resources>
+        <validator:DateTimeConverter x:Key="TimeConverter"/>
+    </UserControl.Resources>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="15"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5"/>
@@ -51,7 +55,7 @@
         <DataGrid ItemsSource="{Binding Income, Mode=TwoWay}" 
                   AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time}" />
+                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}} "/>
                 <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}"/>
                 <DataGridTextColumn Header="Amount" Width="*" Binding="{Binding Path=Amount}"/>
             </DataGrid.Columns>

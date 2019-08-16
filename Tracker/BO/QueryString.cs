@@ -14,7 +14,8 @@ namespace Tracker.BO
                                                   [ID] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                                                   [Date] TEXT(2018) NULL,
                                                   [Type] TEXT(2018) NULL,
-                                                  [Amount] REAL NOT NULL
+                                                  [Amount] REAL NOT NULL,
+                                                  [Description] TEXT(2018) NULL
                                                   )";
 
         public string CreateIncomeTableQuery = @"CREATE TABLE IF NOT EXISTS IncomeTable(
@@ -30,7 +31,7 @@ namespace Tracker.BO
                                                     [Amount] REAL NOT NULL
                                                     )";
 
-        public string InsertExpenseDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Date, Type, Amount) Values ('{0}','{1}','{2}')";
+        public string InsertExpenseDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Date, Type, Amount, Description) Values ('{0}','{1}','{2}','{3}')";
 
         public string ExpenseCountQuery = @"SELECT SUM(Amount) As Total FROM ExpenseTable";
 

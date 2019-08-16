@@ -43,7 +43,8 @@ namespace Tracker.BO
                     {
                         Time = Convert.ToDateTime(reader[0]),
                         Type = reader[1].ToString(),
-                        Amount = Convert.ToDouble(reader[2].ToString())
+                        Amount = Convert.ToDouble(reader[2].ToString()),
+                        Description = reader[1].ToString()
                     });
                 }
             }
@@ -60,7 +61,7 @@ namespace Tracker.BO
 
         public bool Add(Expense ExpenseInfo)
         {
-            return ExecuteQuery(string.Format(QueryObj.InsertExpenseDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount));
+            return ExecuteQuery(string.Format(QueryObj.InsertExpenseDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount, ExpenseInfo.Description));
         }
 
         public bool ImportDataBase(IList<Expense> ExpenseData)
