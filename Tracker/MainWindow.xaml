@@ -24,7 +24,9 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
         </Grid.ColumnDefinitions>
-        <TabControl Name="tb_Tabs" Grid.Row="1" Grid.Column="1" TabStripPlacement="Left">
+        
+        <TabControl Name="tb_Tabs" Grid.Row="1" Grid.Column="1" 
+                    TabStripPlacement="Left">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="HeaderTemplate">
