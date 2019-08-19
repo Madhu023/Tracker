@@ -14,17 +14,17 @@
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="15"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5"/>
@@ -45,25 +45,17 @@
 
             <Label Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right">Amount :</Label>
             <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2"
-                 VerticalContentAlignment="Center">
-                <TextBox.Text>
-                    <Binding Path="IncomeInfo.Amount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validator:DigitsValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+                 VerticalContentAlignment="Center"
+                 Text="{Binding IncomeInfo.Amount, Mode=TwoWay}"/>
             <Button Grid.Row="7" Grid.Column="3"  Grid.ColumnSpan="2"
                 Height="35" Width="120"  HorizontalAlignment="Right"
                 Command="{Binding AddIncome}"
                 Content="Add Income"/>
         </Grid>
-        <DataGrid HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                  ItemsSource="{Binding Income, Mode=TwoWay}" IsReadOnly="True"
-                  AutoGenerateColumns="False" >
+        <DataGrid ItemsSource="{Binding Income, Mode=TwoWay}" 
+                  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}"/>
+                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}} "/>
                 <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}"/>
                 <DataGridTextColumn Header="Amount" Width="*" Binding="{Binding Path=Amount}"/>
             </DataGrid.Columns>

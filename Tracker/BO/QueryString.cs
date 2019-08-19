@@ -28,11 +28,10 @@ namespace Tracker.BO
                                                     [ID] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
                                                     [Date] TEXT(2018) NULL,
                                                     [FundName] TEXT(2018) NULL,
-                                                    [Amount] REAL NOT NULL,
-                                                    [Units] REAL NOT NULL
+                                                    [Amount] REAL NOT NULL
                                                     )";
 
-        public string InsertExpenseDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Date, Type, Amount, Description) Values ('{0}','{1}','{2}', '{3}')";
+        public string InsertExpenseDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Date, Type, Amount, Description) Values ('{0}','{1}','{2}','{3}')";
 
         public string ExpenseCountQuery = @"SELECT SUM(Amount) As Total FROM ExpenseTable";
 

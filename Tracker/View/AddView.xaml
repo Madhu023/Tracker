@@ -9,19 +9,25 @@
     <UserControl.DataContext>
         <vm:AddViewViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <validator:DateTimeConverter x:Key="TimeConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="8"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="8"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="1" Grid.Column="1" DataContext="{Binding ExpenseInfo, Mode=TwoWay}" HorizontalAlignment="Stretch">
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
             <Grid>
+                <!--DataContext="{Binding ExpenseInfo, Mode=TwoWay}">-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8"/>
                     <RowDefinition Height="*"/>
@@ -44,23 +50,20 @@
                     <ColumnDefinition Width="8"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Name="lbl_Description" Grid.Row="1" Grid.Column="1" Content="Description :" HorizontalAlignment="Right"/>
-                <TextBox Name="txt_Description" Grid.Row="1" Grid.Column="3" Width="120"
-                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-                         Text="{Binding Description}"/>
-
                 <Label Name="lbl_Date" Grid.Row="3" Grid.Column="1" Content="Date :" HorizontalAlignment="Right"/>
                 <DatePicker Name="dt_Date" Grid.Row="3" Grid.Column="3" Width="120"
-                            Text="{Binding Time}"/>
+                            Text="{Binding ExpenseInfo.Time, Mode=TwoWay}"/>
 
                 <Label Name="lbl_ExpenseType" Grid.Row="5" Grid.Column="1" Content="Expense Type :" HorizontalAlignment="Right"/>
-                <ComboBox Name="cb_ExpenseType" Grid.Row="5" Grid.Column="3" Width="120"/>
+                <ComboBox Name="cb_ExpenseType" Grid.Row="5" Grid.Column="3" Width="120" 
+                          ItemsSource="{Binding ExpenseTypes, Mode=TwoWay}"
+                          SelectedItem="{Binding ExpenseInfo.Type, Mode=TwoWay}"/>
 
                 <Label Name="lbl_Amount" Grid.Row="7" Grid.Column="1" Content="Amount :" HorizontalAlignment="Right"/>
                 <TextBox Name="txt_Amount" Grid.Row="7" Grid.Column="3" Width="120"
                          VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
                     <TextBox.Text>
-                        <Binding Path="Amount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="ExpenseInfo.Amount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validator:DigitsValidationRule/>
                             </Binding.ValidationRules>
@@ -74,5 +77,20 @@
             </Grid>
         </StackPanel>
 
+        <DataGrid Grid.Row="3" Grid.Column="1"
+                  ItemsSource="{Binding Expenses, Mode=TwoWay}"
+                  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
+                <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}">
+                    <!--<DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>-->
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Amount" Width="*" Binding="{Binding Path=Amount}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
