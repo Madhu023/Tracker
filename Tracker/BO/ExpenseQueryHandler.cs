@@ -43,8 +43,8 @@ namespace Tracker.BO
                     {
                         Time = Convert.ToDateTime(reader[0]),
                         Type = reader[1].ToString(),
-                        Amount = Convert.ToDouble(reader[2].ToString()),
-                        Description = reader[1].ToString()
+                        Amount = Convert.ToDouble(reader[2].ToString())
+                       // Description = reader[3].ToString()
                     });
                 }
             }

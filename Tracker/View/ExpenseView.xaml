@@ -25,25 +25,22 @@
             <ColumnDefinition Width="8"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="1"
+        <GroupBox Header="Expense Details" Grid.Row="1" Grid.Column="1"
                     HorizontalAlignment="Left" VerticalAlignment="Top">
             <Grid>
                 <!--DataContext="{Binding ExpenseInfo, Mode=TwoWay}">-->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="15"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="8"/>
-
+                    <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="8"/>
@@ -53,19 +50,20 @@
                     <ColumnDefinition Width="8"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Name="lbl_Date" Grid.Row="3" Grid.Column="1" Content="Date :" HorizontalAlignment="Right"/>
-                <DatePicker Name="dt_Date" Grid.Row="3" Grid.Column="3" Width="200"
+                <Label Name="lbl_Date" Grid.Row="1" Grid.Column="1"
+                       Content="Date :" HorizontalAlignment="Right"/>
+                <DatePicker Name="dt_Date" Grid.Row="1" Grid.Column="3" Width="200"
                             Text="{Binding ExpenseInfo.Time, Mode=TwoWay}"/>
 
-                <Label Name="lbl_ExpenseType" Grid.Row="5" Grid.Column="1"
+                <Label Name="lbl_ExpenseType" Grid.Row="3" Grid.Column="1"
                        Content="Expense Type :" HorizontalAlignment="Right"/>
-                <ComboBox Name="cb_ExpenseType" Grid.Row="5" Grid.Column="3" Width="200" 
+                <ComboBox Name="cb_ExpenseType" Grid.Row="3" Grid.Column="3" Width="200" 
                           IsEditable="True"
                           ItemsSource="{Binding ExpenseTypes, Mode=TwoWay}"
                           Text="{Binding ExpenseInfo.Type, Mode=TwoWay}"/>
 
-                <Label Name="lbl_Amount" Grid.Row="7" Grid.Column="1" Content="Amount :" HorizontalAlignment="Right"/>
-                <TextBox Name="txt_Amount" Grid.Row="7" Grid.Column="3" Width="200"
+                <Label Name="lbl_Amount" Grid.Row="5" Grid.Column="1" Content="Amount :" HorizontalAlignment="Right"/>
+                <TextBox Name="txt_Amount" Grid.Row="5" Grid.Column="3" Width="200"
                          VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
                     <TextBox.Text>
                         <Binding Path="ExpenseInfo.Amount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
@@ -76,9 +74,10 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <Label Name="lbl_Description" Grid.Row="9" Grid.Column="1" Content="Description :" HorizontalAlignment="Right"/>
-                <RichTextBox Name="rchtxtbox_Description" Grid.Row="9" Grid.Column="3"
-                             Height="80" Width="200" 
+                <Label Name="lbl_Description" Grid.Row="7" Grid.Column="1"
+                       Content="Description :" HorizontalAlignment="Right"/>
+                <RichTextBox Name="rchtxtbox_Description" Grid.Row="7" Grid.Column="3"
+                             Width="200" 
                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <RichTextBox.Resources>
                         <Style TargetType="{x:Type Paragraph}">
@@ -92,17 +91,17 @@
                     </FlowDocument>
                 </RichTextBox>
                 
-                <Button Name="btn_Browse" Grid.Row="11" Grid.Column="3"
-                        HorizontalAlignment="Right" Height="30" 
+                <Button Name="btn_Browse" Grid.Row="9" Grid.Column="3"
+                        HorizontalAlignment="Right" Width="120"
                         Command="{Binding AddExpense}" Content="Add Expense"/>
             </Grid>
-        </StackPanel>
+        </GroupBox>
     
         <DataGrid Grid.Row="3" Grid.Column="1"
                   ItemsSource="{Binding Expenses, Mode=TwoWay}" 
-                  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                  AutoGenerateColumns="False" VerticalAlignment="Bottom">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Date" Width="80"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
+                <DataGridTextColumn Header="Date" Width="*"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
                 <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}">
                     <!--<DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">

@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="1" Grid.Column="1"
-                    VerticalAlignment="Top" HorizontalAlignment="Left"
+                    VerticalAlignment="Top" HorizontalAlignment="Center"
                     Orientation="Vertical">
             <Grid>
                 <Grid.RowDefinitions>
@@ -71,18 +71,21 @@
                         Command="{Binding FilterCommand}" Content=" Filter "/>
             </Grid>
 
-            <chart:PieChart ChartLegendVisibility="Hidden" 
-                        ChartTitle="Expense" ChartSubTitle=""
-                        HorizontalContentAlignment="Right"
-                        FontFamily="Times New Roman">
-                <chart:PieChart.Series>
-                    <chart:ChartSeries
-            SeriesTitle="Expenses" 
-            DisplayMember="Type"
-            ValueMember="Amount"
-            ItemsSource="{Binding ExpenseData}" />
-                </chart:PieChart.Series>
-            </chart:PieChart>
+            <materialdesign:Card Margin="20,20">
+                <chart:DoughnutChart ChartLegendVisibility="Hidden" 
+                        ChartTitle="Expenses" ChartSubTitle=""
+                        ChartTitleVisibility="Visible"
+                        Height="400" Width="400"
+                        FontSize="14">
+                    <chart:DoughnutChart.Series>
+                        <chart:ChartSeries
+                           SeriesTitle="Expenses" 
+                           DisplayMember="Type"
+                           ValueMember="Amount"
+                           ItemsSource="{Binding ExpenseData}" />
+                    </chart:DoughnutChart.Series>
+                </chart:DoughnutChart>
+            </materialdesign:Card>
         </StackPanel>
 
         <!--<DataGrid Grid.Row="5" Grid.Column="1"
