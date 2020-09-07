@@ -1,18 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Tracker.BO;
 using Tracker.Common;
 using Tracker.Model;
+using System.Linq;
 
 namespace Tracker.ViewModel
 {
     class InvestmentViewViewModel : ViewModelBase
     {
-        Investment _investmentInfo;
+        private Investment _investmentInfo;
 
-        RelayCommand _addInvestment;
+        private IQueryHandler<Investment> _queryHandler;
+
+        private RelayCommand _addInvestment;
+
+        private ObservableCollection<Investment> _investments;
 
         public InvestmentViewViewModel()
         {
             _investmentInfo = new Investment();
+
+            _queryHandler = InvestmentQueryHandler.GetDBConnector();
+
+            _investments = new ObservableCollection<Investment>(_queryHandler.GetData().OrderByDescending(var => var.Time));
         }
 
         public Investment InvestmentInfo
@@ -41,9 +53,25 @@ namespace Tracker.ViewModel
             }
         }
 
+        public ObservableCollection<Investment> Investments
+        {
+            get
+            {
+                return _investments;
+            }
+
+            set
+            {
+                _investments = value;
+                this.OnPropertyChanged("Investments");
+            }
+        }
+
         private void AddInvestmentData()
         {
-            throw new NotImplementedException();
+            _investments.Add(InvestmentInfo);
+            _queryHandler.Add(InvestmentInfo);
+            InvestmentInfo = new Investment();
         }
     }
 }

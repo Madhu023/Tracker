@@ -125,7 +125,9 @@
     </ApplicationDefinition>
     <Compile Include="BO\ExpenseQueryHandler.cs" />
     <Compile Include="BO\IncomeQueryHandler.cs" />
+    <Compile Include="BO\InvestmentQueryHandler.cs" />
     <Compile Include="BO\IQueryHandler.cs" />
+    <Compile Include="Model\MappingAttribute.cs" />
     <Compile Include="BO\QueryString.cs" />
     <Compile Include="BO\ExcelParser.cs" />
     <Compile Include="BO\QueryHandler.cs" />

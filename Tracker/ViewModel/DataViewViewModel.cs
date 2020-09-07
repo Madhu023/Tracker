@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -136,16 +137,10 @@ namespace Tracker.ViewModel
             fileDialog.ShowDialog();
             FileName = fileDialog.FileName;
             ExpenseData.Clear();
-            YearWiseExpenses.Clear();
+            //YearWiseExpenses.Clear();
 
-            var Result = await ExcelParser.Parse(FileName);
-
-            ExpenseData = new ObservableCollection<Expense>(Result);
-
-           await  Task.Run(() =>
-            {
-                ExpenseQueryHandler.GetDBConnector().ImportDataBase(ExpenseData);
-            });
+            IList<Expense> Result = await ExcelParser.Parse(FileName);
+            await ExpenseQueryHandler.GetDBConnector().ImportDataBase(Result);
 
             PopulateData();
         }
@@ -155,7 +150,7 @@ namespace Tracker.ViewModel
             FileName = "Select a File to Load";
             _queryHandler = ExpenseQueryHandler.GetDBConnector();
 
-            YearWiseExpenses = new ObservableCollection<YearlyExpenseData>();
+            //YearWiseExpenses = new ObservableCollection<YearlyExpenseData>();
 
             PopulateData();
 
@@ -167,29 +162,29 @@ namespace Tracker.ViewModel
         {
             ExpenseData = new ObservableCollection<Expense>(_queryHandler.GetDataByCategory());
 
-            TotalValue = ExpenseData.Sum(var => var.Amount).ToString();
-            //await Task.Run(() =>
-            {
-                var yearlyExpenses = ExpenseData.GroupBy(year => year.Time.Year).ToList();
+            //TotalValue = ExpenseData.Sum(var => var.Amount).ToString();
+            ////await Task.Run(() =>
+            //{
+            //    var yearlyExpenses = ExpenseData.GroupBy(year => year.Time.Year).ToList();
 
-                foreach (var yearlyExpense in yearlyExpenses)
-                {
-                    YearlyExpenseData yearlyExpenseData = new YearlyExpenseData { Year = yearlyExpense.Key };
+            //    foreach (var yearlyExpense in yearlyExpenses)
+            //    {
+            //        YearlyExpenseData yearlyExpenseData = new YearlyExpenseData { Year = yearlyExpense.Key };
 
-                    var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
+            //        var monthlyExpenseDetails = yearlyExpense.GroupBy(month => month.Time.ToString("MMM")).ToList();
 
 
-                    foreach (var monthlyExpense in monthlyExpenseDetails)
-                    {
-                        yearlyExpenseData.MonthlyData.Add(new MonthlyExpenseData() { Month = monthlyExpense.Key, Amount = monthlyExpense.Sum(var => var.Amount) });
-                    }
+            //        foreach (var monthlyExpense in monthlyExpenseDetails)
+            //        {
+            //            yearlyExpenseData.MonthlyData.Add(new MonthlyExpenseData() { Month = monthlyExpense.Key, Amount = monthlyExpense.Sum(var => var.Amount) });
+            //        }
 
-                    yearlyExpenseData.TotalExpense = yearlyExpenseData.MonthlyData.Sum(var => var.Amount);
+            //        yearlyExpenseData.TotalExpense = yearlyExpenseData.MonthlyData.Sum(var => var.Amount);
 
-                    YearWiseExpenses.Add(yearlyExpenseData);
-                }
-                //});
-            }
+            //        YearWiseExpenses.Add(yearlyExpenseData);
+            //    }
+            //    //});
+            //}
         }
 
 

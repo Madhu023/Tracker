@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 using Tracker.Model;
 
 namespace Tracker.BO
@@ -8,14 +9,10 @@ namespace Tracker.BO
     public class ExpenseQueryHandler : QueryHandler, 
                                        IQueryHandler<Expense>
     {
-        private static ExpenseQueryHandler _queryHandler;
+        private static ExpenseQueryHandler _queryHandler = new ExpenseQueryHandler();
 
         public static IQueryHandler<Expense> GetDBConnector()
         {
-            if (null == _queryHandler)
-            {
-                _queryHandler = new ExpenseQueryHandler();
-            }
             return _queryHandler;
         }
 
@@ -31,27 +28,7 @@ namespace Tracker.BO
 
         private IList<Expense> GetExpense(ref string QueryString)
         {
-            IList<Expense> Data = new List<Expense>();
-            SQLiteCommand command = GetSqlCommand(QueryString);
-
-            Connection.Open();
-            using (SQLiteDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    Data.Add(new Expense
-                    {
-                        Time = Convert.ToDateTime(reader[0]),
-                        Type = reader[1].ToString(),
-                        Amount = Convert.ToDouble(reader[2].ToString())
-                       // Description = reader[3].ToString()
-                    });
-                }
-            }
-            Connection.Close();
-            command.Dispose();
-
-            return Data;
+            return _queryHandler.GetData<Expense>(ref QueryString);
         }
 
         public IList<Expense> GetDataByCategory()
@@ -61,19 +38,18 @@ namespace Tracker.BO
 
         public bool Add(Expense ExpenseInfo)
         {
-            return ExecuteQuery(string.Format(QueryObj.InsertExpenseDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount, ExpenseInfo.Description));
+            ExecuteQuery(string.Format(QueryObj.InsertExpenseDataQuery, ExpenseInfo.Time.ToString("dd MMM yyyy"), ExpenseInfo.Type, ExpenseInfo.Amount, ExpenseInfo.Description));
+            return true;
         }
 
-        public bool ImportDataBase(IList<Expense> ExpenseData)
+        async Task<bool> IQueryHandler<Expense>.ImportDataBase(IList<Expense> Data)
         {
-            bool Result = true;
-            foreach (var ExpenseInfo in ExpenseData)
+            foreach (var ExpenseInfo in Data)
             {
-                Result = Add(ExpenseInfo);
-                if (!Result)
-                    break;
+                if (!Add(ExpenseInfo))
+                    return false;
             }
-            return Result;
+            return true;
         }
     }
 }

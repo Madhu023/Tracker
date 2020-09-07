@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Tracker.View.DataView"
+﻿<UserControl xmlns:charts="http://schemas.actiprosoftware.com/winfx/xaml/charts"  x:Class="Tracker.View.DataView"
              xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -71,11 +71,16 @@
                         Command="{Binding FilterCommand}" Content=" Filter "/>
             </Grid>
 
-            <materialdesign:Card Margin="20,20">
-                <chart:DoughnutChart ChartLegendVisibility="Hidden" 
+            <materialdesign:Card Margin="10,10">
+                <!--<charts:DonutChart>
+                    <charts:PieSeries>
+                        
+                    </charts:PieSeries>
+                </charts:DonutChart>-->
+                <chart:DoughnutChart ChartLegendVisibility="Visible" 
                         ChartTitle="Expenses" ChartSubTitle=""
                         ChartTitleVisibility="Visible"
-                        Height="400" Width="400"
+                        Height="500" Width="500"
                         FontSize="14">
                     <chart:DoughnutChart.Series>
                         <chart:ChartSeries

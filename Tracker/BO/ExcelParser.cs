@@ -7,7 +7,7 @@ namespace Tracker.BO
 {
     public class ExcelParser
     {
-        public static async Task<IList<Expense>> Parse(String FileName)
+        public static async Task<IList<Expense>>Parse(String FileName)
         {
             IList<Expense> expenseData = new List<Expense>();
             try

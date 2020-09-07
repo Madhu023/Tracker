@@ -24,18 +24,21 @@ namespace Tracker.BO
                                                 [Type] TEXT(2018) NULL,
                                                 [Amount] REAL NOT NULL
                                                 )";
+
         public string CreateInvestmentTableQuery = @"CREATE TABLE IF NOT EXISTS InvestmentTable(
                                                     [ID] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
                                                     [Date] TEXT(2018) NULL,
                                                     [FundName] TEXT(2018) NULL,
-                                                    [Amount] REAL NOT NULL
+                                                    [AMC] TEXT(2018) NULL,
+                                                    [Amount] REAL NOT NULL,
+                                                    [Units] REAL NOT NULL
                                                     )";
 
         public string InsertExpenseDataQuery = @"INSERT OR REPLACE INTO ExpenseTable (Date, Type, Amount, Description) Values ('{0}','{1}','{2}','{3}')";
 
         public string ExpenseCountQuery = @"SELECT SUM(Amount) As Total FROM ExpenseTable";
 
-        public string ExpenseDataQueryByType = @"SELECT Date, Type, SUM(Amount) FROM ExpenseTable GROUP BY Type";
+        public string ExpenseDataQueryByType = @"SELECT Date, Type, SUM(Amount) As Amount FROM ExpenseTable GROUP BY Type";//@"SELECT Date, Type, SUM(Amount) FROM ExpenseTable GROUP BY Type";
 
         public string ExpenseDataQuery = @"SELECT Date, Type, Amount FROM ExpenseTable";
 
@@ -49,5 +52,8 @@ namespace Tracker.BO
 
         public string IncomeDataQueryByType = @"SELECT Date, Type, SUM(Amount) FROM IncomeTable GROUP BY Type";
 
+        public string InvestmentDataQuery = @"SELECT * FROM InvestmentTable";
+
+        public string InsertInvestmentData = @"INSERT OR REPLACE INTO InvestmentTable (Date, FundName, AMC, Amount, Units) Values ('{0}','{1}','{2}','{3}','{4}')";
     }
 }

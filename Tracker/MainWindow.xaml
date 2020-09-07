@@ -44,7 +44,7 @@
                 </Style>
             </TabControl.Resources>
             <TabItem Name="tb_View" Header="Home">
-                <usercontrol:DataView HorizontalAlignment="Left" Margin="10,20"/>
+                <usercontrol:DataView HorizontalAlignment="Left" Margin="10,20" VerticalAlignment="Stretch"/>
             </TabItem>
             <TabItem Name="tb_ExpenseView" Header="Expense">
                 <usercontrol:ExpenseView HorizontalContentAlignment="Left" Margin="10,20"/>

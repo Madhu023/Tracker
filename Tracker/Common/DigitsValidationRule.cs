@@ -14,22 +14,17 @@ namespace Tracker.Common
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             var validationResult = new ValidationResult(true, null);
-
-            if (value != null)
+            if (!string.IsNullOrEmpty(value?.ToString()))
             {
-                if (!string.IsNullOrEmpty(value.ToString()))
+                //var regex = new Regex("^[-+]?[0-9]*[.]+[0-9]+");
+                var regex = new Regex("^[-+]?[0-9]+[.]+[0-9]+[0-9]*"); //regex that matches disallowed text [^0-9-.]+ "
+                var parsingOk = regex.IsMatch(value.ToString());
+                // bool parsingOk = true;
+                if (!parsingOk)
                 {
-                    //var regex = new Regex("^[-+]?[0-9]*[.]+[0-9]+");
-                    var regex = new Regex("^[-+]?[0-9]+[.]+[0-9]+[0-9]*"); //regex that matches disallowed text [^0-9-.]+ "
-                    var parsingOk = regex.IsMatch(value.ToString());
-                   // bool parsingOk = true;
-                    if (!parsingOk)
-                    {
-                        validationResult = new ValidationResult(false, "Illegal Characters, Please Enter Numeric Value");
-                    }
+                    return new ValidationResult(false, "Illegal Characters, Please Enter Numeric Value");
                 }
             }
-
             return validationResult;
         }
     }

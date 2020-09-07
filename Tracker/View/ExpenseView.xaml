@@ -99,7 +99,7 @@
     
         <DataGrid Grid.Row="3" Grid.Column="1"
                   ItemsSource="{Binding Expenses, Mode=TwoWay}" 
-                  AutoGenerateColumns="False" VerticalAlignment="Bottom">
+                  AutoGenerateColumns="False" VerticalContentAlignment="Stretch">
             <DataGrid.Columns >
                 <DataGridTextColumn Header="Date" Width="*"  Binding="{Binding Path=Time, Converter={StaticResource TimeConverter}}" />
                 <DataGridTextColumn Header="Type" Width="*" Binding="{Binding Path=Type}">

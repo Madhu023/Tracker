@@ -8,8 +8,8 @@ using Tracker.Model;
 namespace Tracker.BO
 {
     public interface IQueryHandler<T>
-    {
-        bool ImportDataBase(IList<T> Data);
+    { 
+        Task<bool> ImportDataBase(IList<T> Data);
 
         bool Add(T Data);
 
